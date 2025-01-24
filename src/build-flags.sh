@@ -175,6 +175,8 @@ USER_BOOST_LIBRARY_LINKS=(
 
 USER_LIBRARY_FLAGS=(
     -I/opt/abseil/include/ -L/opt/abseil/lib/ "${USER_ABSEIL_LIBRARY_LINKS[@]}"
+    -Wnon-virtual-dtor -lrt # specified by abseil
+
     -I/opt/ac-library/
     -I/opt/boost/include/ -L/opt/boost/lib/ "${USER_BOOST_LIBRARY_LINKS[@]}"
     -I/usr/include/eigen3/
