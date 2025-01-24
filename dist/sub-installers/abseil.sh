@@ -18,12 +18,13 @@ cd ./abseil/
 mkdir -p ./build/ && cd ./build/
 
 BUILD_ARGS=(
+    -DABSL_ENABLE_INSTALL:BOOL=ON
     -DABSL_PROPAGATE_CXX_STD:BOOL=ON
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/abseil/
-    -DCMAKE_CXX_FLAGS:STRING="${INTERNAL_BUILD_FLAGS[*]}"
+    -DCMAKE_CXX_FLAGS:STRING="${INTERNAL_BUILD_FLAGS[*]} -fPIC"
 )
 
-if [[ -v RUN_TEST ]]; then
+if [[ -v RUN_TEST ]] && [[ "${RUN_TEST}" = "true" ]]; then
     sudo cmake -DABSL_BUILD_TESTING=ON -DABSL_USE_GOOGLETEST_HEAD=ON "${BUILD_ARGS[@]}" ../
 
     sudo make "-j${PARALLEL}"
