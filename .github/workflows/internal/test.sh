@@ -54,9 +54,6 @@ export -f run-test
 find ./ -type f -name '*.test.cpp' -print0 |
     xargs -0 "-P$(nproc)" -I {} bash -c 'run-test {}'
 
-ls ./
-ls ./tmp/
-
 FAIL=0
 
 if [ -f ./tmp/fail.txt ]; then
