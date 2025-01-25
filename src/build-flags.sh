@@ -30,7 +30,6 @@ EXTRA_USER_BUILD_FLAGS=(
 )
 
 USER_ABSEIL_LIBRARY_LINKS=(
-    -labsl_atomic_hook_test_helper
     -labsl_bad_any_cast_impl
     -labsl_bad_optional_access
     -labsl_bad_variant_access
@@ -53,7 +52,6 @@ USER_ABSEIL_LIBRARY_LINKS=(
     -labsl_demangle_rust
     -labsl_die_if_null
     -labsl_examine_stack
-    -labsl_exception_safety_testing
     -labsl_exponential_biased
     -labsl_failure_signal_handler
     -labsl_flags_commandlineflag
@@ -69,7 +67,6 @@ USER_ABSEIL_LIBRARY_LINKS=(
     -labsl_flags_usage_internal
     -labsl_graphcycles_internal
     -labsl_hash
-    -labsl_hash_generator_testing
     -labsl_hashtablez_sampler
     -labsl_int128
     -labsl_kernel_timeout_internal
@@ -87,17 +84,12 @@ USER_ABSEIL_LIBRARY_LINKS=(
     -labsl_log_internal_message
     -labsl_log_internal_nullguard
     -labsl_log_internal_proto
-    -labsl_log_internal_test_actions
-    -labsl_log_internal_test_helpers
-    -labsl_log_internal_test_matchers
     -labsl_log_severity
     -labsl_log_sink
     -labsl_low_level_hash
     -labsl_malloc_internal
-    -labsl_per_thread_sem_test_common
     -labsl_periodic_sampler
     -labsl_poison
-    -labsl_pow10_helper
     -labsl_random_distributions
     -labsl_random_internal_distribution_test_util
     -labsl_random_internal_platform
@@ -111,14 +103,10 @@ USER_ABSEIL_LIBRARY_LINKS=(
     -labsl_random_seed_sequences
     -labsl_raw_hash_set
     -labsl_raw_logging_internal
-    -labsl_scoped_mock_log
     -labsl_scoped_set_env
-    -labsl_spinlock_test_common
     -labsl_spinlock_wait
-    -labsl_stack_consumption
     -labsl_stacktrace
     -labsl_status
-    -labsl_status_matchers
     -labsl_statusor
     -labsl_str_format_internal
     -labsl_strerror
@@ -127,10 +115,8 @@ USER_ABSEIL_LIBRARY_LINKS=(
     -labsl_strings_internal
     -labsl_symbolize
     -labsl_synchronization
-    -labsl_test_instance_tracker
     -labsl_throw_delegate
     -labsl_time
-    -labsl_time_internal_test_util
     -labsl_time_zone
     -labsl_utf8_for_code_point
     -labsl_vlog_config_internal
