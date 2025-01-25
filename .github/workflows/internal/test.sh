@@ -41,7 +41,7 @@ function run-test() {
         echo
 
         if [ $exit_status -gt 0 ]; then
-            cat "" >./fail.txt
+            cat "error" >./../../fail.txt
         fi
 
         set -e
@@ -54,8 +54,15 @@ export -f run-test
 find ./ -type f -name '*.test.cpp' -print0 |
     xargs -0 "-P$(nproc)" -I {} bash -c 'run-test {}'
 
+ls ./
+ls ./tmp/
+
+FAIL=0
+
+if [ -f ./tmp/fail.txt ]; then
+    FAIL=1
+fi
+
 sudo rm -rf ./tmp/
 
-if [ -f ./fail.txt ]; then
-    exit 1
-fi
+exit ${FAIL}
