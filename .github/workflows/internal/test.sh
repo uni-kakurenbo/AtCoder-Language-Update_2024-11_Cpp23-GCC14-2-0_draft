@@ -19,6 +19,9 @@ function run-test() {
     cd "${directory}/"
     chmod +x ./compile.sh
 
+    local exit_status
+    exit_status=0
+
     {
         set +e
         local header="================ ${name} ================"
@@ -26,14 +29,20 @@ function run-test() {
         echo "${header}"
 
         ./compile.sh
+        exit_status=$((exit_status + $?))
 
         echo "${header//[^\$]/-}"
 
         ./a.out
+        exit_status=$((exit_status + $?))
 
         echo "${header//[^=]/=}"
         echo
         echo
+
+        if [ $exit_status -gt 0 ]; then
+            cat "" >./fail.txt
+        fi
 
         set -e
     } >&./log.txt
@@ -46,3 +55,7 @@ find ./ -type f -name '*.test.cpp' -print0 |
     xargs -0 "-P$(nproc)" -I {} bash -c 'run-test {}'
 
 sudo rm -rf ./tmp/
+
+if [ -f ./fail.txt ]; then
+    exit 1
+fi
