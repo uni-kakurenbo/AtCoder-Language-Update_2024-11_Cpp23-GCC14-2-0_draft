@@ -1,16 +1,21 @@
 #!/bin/bash
 set -eu
 
-cd /tmp/
+cd /tmp/ac_install/
 
-mkdir -p ./boost/
+echo "::gruop::Boost"
+
+sudo mkdir -p ./boost/
 
 sudo wget -q "https://archives.boost.io/release/${VERSION}/source/boost_${VERSION//./_}.tar.bz2" -O ./boost.tar.bz2
 sudo tar -I pbzip2 -xf ./boost.tar.bz2 -C ./boost/ --strip-components 1
 
 cd ./boost/
 
-sudo ./bootstrap.sh --with-toolset=gcc --without-libraries=mpi,graph_parallel
+sudo ./bootstrap.sh \
+    --with-toolset=gcc \
+    --without-libraries=mpi,graph_parallel \
+    --prefix=/opt/ac_install/boost/
 
 BUILD_ARGS=(
     -d0
@@ -20,8 +25,11 @@ BUILD_ARGS=(
     "variant=release"
     "link=static"
     "runtime-link=static"
-    "cxxflags=${INTERNAL_BUILD_FLAGS[*]}"
+    "cflags=-w"
+    "cxxflags=${BUILD_FLAGS[*]}"
 )
 
-sudo ./b2 "${BUILD_ARGS[@]}" stage
-sudo ./b2 "${BUILD_ARGS[@]}" --prefix=/opt/boost/ install
+sudo ./b2 "${BUILD_ARGS[@]}" -j "${PARALLEL}" stage
+sudo ./b2 "${BUILD_ARGS[@]}" -j "${PARALLEL}" install
+
+echo "::endgruop::"
