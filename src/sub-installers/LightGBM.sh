@@ -18,7 +18,7 @@ mkdir -p ./build/ && cd ./build/
 sudo cmake \
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/light-gbm/ \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
-    -DCMAKE_CXX_FLAGS:STRING="${INTERNAL_BUILD_FLAGS[*]} -I/usr/include/eigen3/" \
+    -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]} -I/usr/include/eigen3/" \
     ../
 
 sudo cmake --build ./ --target install --parallel "${PARALLEL}"

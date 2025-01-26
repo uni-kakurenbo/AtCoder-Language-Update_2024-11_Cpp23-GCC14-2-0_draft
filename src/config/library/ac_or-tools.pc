@@ -1,0 +1,33 @@
+Name: OR-tools
+Description: links LightGBM.
+Version:
+
+Requires: highs protobuf re2
+
+Cflags: I/opt/or-tools/include/
+
+Libs: \
+    -L/opt/or-tools/lib/ \
+    -Wl,-R/opt/or-tools/lib/ \
+    \
+    -lCbc \
+    -lCbcSolver \
+    -lCgl \
+    -lClp \
+    -lClpSolver \
+    -lCoinUtils \
+    -lGLPK \
+    -lOsi \
+    -lOsiCbc \
+    -lOsiClp \
+    -lhighs \
+    -lortools \
+    -lprotobuf \
+    -lre2 \
+    -lscip \
+    -lutf8_range \
+    -lutf8_validity \
+    -lz \
+# -lortools_flatzinc
+# -lprotobuf-lite
+# -lprotoc
