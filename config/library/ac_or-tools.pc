@@ -1,0 +1,26 @@
+Name: OR-tools
+Description: links LightGBM.
+Version:
+
+Requires: protobuf re2
+
+Cflags: -I/opt/or-tools/include/
+
+Libs: \
+    -L/opt/or-tools/lib/ \
+    -Wl,-R/opt/or-tools/lib/ \
+    \
+    -lortools \
+    -lCbc \
+    -lCbcSolver \
+    -lCgl \
+    -lClp \
+    -lClpSolver \
+    -lCoinUtils \
+    -lGLPK \
+    -lOsi \
+    -lOsiCbc \
+    -lOsiClp \
+    -lhighs \
+    -lscip \
+    -lz \
