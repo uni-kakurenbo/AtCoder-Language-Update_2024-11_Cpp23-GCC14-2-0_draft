@@ -42,7 +42,7 @@ jobs:
                   create-symlink: true
 
             - name: Replace template
-              run: ./.github/workflows/internal/replace.sh
+              run: ./.github/workflows/internal/expand.sh
 
             - name: Install
               env:
