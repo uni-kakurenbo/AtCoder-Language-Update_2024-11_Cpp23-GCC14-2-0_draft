@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eu
 
-cd /tmp/
+cd /tmp/ac_install/
 
-mkdir -p ./or-tools/
+sudo mkdir -p ./or-tools/
 
 sudo wget -q "https://github.com/google/or-tools/archive/refs/tags/v${VERSION}.tar.gz" -O ./or-tools.tar.gz
 sudo tar -I pigz -xf ./or-tools.tar.gz -C ./or-tools/ --strip-components 1
@@ -21,7 +21,7 @@ if [[ -v RUN_TEST ]] && [[ "${RUN_TEST}" = "true" ]]; then
     fi
 fi
 
-mkdir -p ./build/ && cd ./build/
+sudo mkdir -p ./build/ && cd ./build/
 
 sudo cmake -G "${GENERATOR}" \
     -DBUILD_ZLIB:BOOL=ON -DBUILD_Protobuf:BOOL=ON -DBUILD_re2:BOOL=ON \
@@ -31,11 +31,11 @@ sudo cmake -G "${GENERATOR}" \
     -DUSE_SCIP:BOOL=ON -DBUILD_SCIP:BOOL=ON \
     -DBUILD_SAMPLES:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF \
     -DBUILD_TESTING:BOOL="${BUILD_TESTING}" \
-    -DCMAKE_PREFIX_PATH:PATH=/opt/abseil/ \
-    -DCMAKE_INSTALL_PREFIX:PATH=/opt/or-tools/ \
+    -DCMAKE_PREFIX_PATH:PATH=/opt/ac_install/abseil/ \
+    -DCMAKE_INSTALL_PREFIX:PATH=/opt/ac_install/or-tools/ \
     -DBUILD_SHARED_LIBS:BOOL=OFF \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
-    -DCMAKE_CXX_FLAGS="${INTERNAL_BUILD_FLAGS[*]}" \
+    -DCMAKE_CXX_FLAGS="${BUILD_FLAGS[*]}" \
     ../
 
 sudo cmake --build ./ --config Release --target install --parallel "${PARALLEL}"
