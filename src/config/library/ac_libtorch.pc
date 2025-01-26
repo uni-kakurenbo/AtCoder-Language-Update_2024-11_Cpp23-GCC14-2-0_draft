@@ -1,0 +1,55 @@
+Name: LibTorch
+Description: links LibTorch.
+Version:
+
+Cflags: \
+    -I/opt/libtorch/include/ \
+    -I/opt/libtorch/include/torch/csrc/api/include/ \
+
+Libs: \
+    -L/opt/libtorch/lib/ \
+    -Wl,-R/opt/libtorch/lib/ \
+    \
+    -lXNNPACK \
+    -laoti_custom_ops \
+    -lasmjit \
+    -lbackend_with_compiler \
+    -lbenchmark \
+    -lbenchmark_main \
+    -lc10 \
+    -lclog \
+    -lcpuinfo \
+    -lcpuinfo_internals \
+    -ldnnl \
+    -lfbgemm \
+    -lfmt \
+    -lgloo \
+    -lgmock \
+    -lgmock_main \
+    -lgomp-98b21ff3.so.1
+    -lgomp-a34b3233.so.1
+    -lgtest \
+    -lgtest_main \
+    -littnotify \
+    -ljitbackend_test \
+    -lkineto \
+    -lnnapi_backend \
+    -lnnpack \
+    -lnnpack_reference_layers \
+    -lonnx \
+    -lonnx_proto \
+    -lprotobuf-lite \
+    -lprotobuf \
+    -lprotoc \
+    -lpthreadpool \
+    -lpytorch_qnnpack \
+    -lshm \
+    -ltensorpipe \
+    -ltensorpipe_uv \
+    -ltorch
+    -ltorch \
+    -ltorch_cpu \
+    -ltorch_global_deps \
+    -ltorch_python \
+    -ltorchbind_test \
+    -lunbox_lib \
