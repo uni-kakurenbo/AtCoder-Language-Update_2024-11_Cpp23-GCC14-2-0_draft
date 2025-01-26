@@ -22,3 +22,5 @@ sudo cmake \
     ../
 
 sudo cmake --build ./ --target install --parallel "${PARALLEL}"
+
+rm -rf /opt/light-gbm/bin/
