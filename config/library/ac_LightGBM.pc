@@ -1,0 +1,11 @@
+Name: LightGBM
+Description: links LightGBM.
+Version:
+
+Cflags: -I/opt/light-gbm/include/
+
+Libs: \
+    -L/opt/light-gbm/lib/ \
+    -Wl,-R/opt/light-gbm/lib/ \
+    \
+    -l_lightgbm \

@@ -35,7 +35,7 @@ sudo cmake -G "${GENERATOR}" \
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/or-tools/ \
     -DBUILD_SHARED_LIBS:BOOL=OFF \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
-    -DCMAKE_CXX_FLAGS="${INTERNAL_BUILD_FLAGS[*]}" \
+    -DCMAKE_CXX_FLAGS="${BUILD_FLAGS[*]}" \
     ../
 
 sudo cmake --build ./ --config Release --target install --parallel "${PARALLEL}"

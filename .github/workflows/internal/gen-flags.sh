@@ -1,0 +1,35 @@
+# shellcheck disable=all
+
+set -eu
+
+DIR="$(dirname "$0")"
+DIR="${DIR}/../../../"
+
+CONFIG_PATHS=(
+    "${DIR}/config/"
+    "${DIR}/config/internal/"
+    "${DIR}/config/library/"
+
+    "/opt/abseil/lib/pkgconfig/"
+    "/opt/or-tools/lib/pkgconfig/"
+    "/opt/z3/lib/pkgconfig/"
+)
+
+CONFIG_PATHS="${CONFIG_PATHS[@]}"
+CONFIG_PATHS="${CONFIG_PATHS// /:}"
+
+PKG_CONFIG_PATH="${CONFIG_PATHS}"
+export PKG_CONFIG_PATH
+
+function gen() {
+    local flags
+    local libs
+
+    flags=($(pkg-config --cflags "$@" | tr ' ' '\n' | sort -u))
+    libs=($(pkg-config --libs "$@"))
+
+    echo "${flags[@]} ${libs[@]}"
+}
+
+gen ac_internal | tr ' ' '\n' >./dist/internal.flags.txt
+gen ac_user | tr ' ' '\n' >./dist/user.flags.txt
