@@ -1,24 +1,27 @@
 #!/bin/bash
 set -eu
 
-cd /tmp/
+cd /tmp/ac_install/
 
-mkdir -p ./abseil/
+sudo mkdir -p ./abseil/
 
 sudo wget -q "https://github.com/abseil/abseil-cpp/releases/download/${VERSION}/abseil-cpp-${VERSION}.tar.gz" -O ./abseil.tar.gz
 sudo tar -I pigz -xf ./abseil.tar.gz -C ./abseil/ --strip-components 1
 
 cd ./abseil/
 
-mkdir -p ./build/ && cd ./build/
+sudo mkdir -p ./build/ && cd ./build/
 
 BUILD_ARGS=(
     -DABSL_ENABLE_INSTALL:BOOL=ON
     -DABSL_PROPAGATE_CXX_STD:BOOL=ON
     -DABSL_USE_SYSTEM_INCLUDES:BOOL=ON
-    -DCMAKE_INSTALL_PREFIX:PATH=/opt/abseil/
+    -DCMAKE_INSTALL_PREFIX:PATH=/opt/ac_install/abseil/
+    -DCMAKE_C_FLAGS:STRING="-w"
     -DCMAKE_CXX_COMPILER:STRING="g++-14"
-    -DCMAKE_CXX_FLAGS:STRING="${INTERNAL_BUILD_FLAGS[*]} -fPIC"
+    -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]} -fPIC"
+    -DCMAKE_INSTALL_MESSAGE:STRING=NEVER
+    -DCMAKE_MESSAGE_LOG_LEVEL:STRING=WARNING
 )
 
 if [[ -v RUN_TEST ]] && [[ "${RUN_TEST}" = "true" ]]; then

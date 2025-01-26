@@ -5,10 +5,26 @@ on:
     push:
         branches:
             - main
+            - test/**
+    pull_request:
     workflow_dispatch:
+        inputs:
+            test-mode:
+                description: "Test mode"
+                required: true
+                default: "normal"
+                type: choice
+                options:
+                    - none
+                    - normal
+                    - strict
 
 concurrency:
-    group: expand-${{ github.ref_name }}
+    group: |
+        test-${{
+            startsWith(github.ref_name, 'test') && github.ref_name ||
+            github.run_id
+        }}
     cancel-in-progress: true
 
 jobs:
@@ -22,14 +38,93 @@ jobs:
                   fetch-depth: 0
                   ssh-key: ${{ secrets.SSH_KEY }}
 
-            - name: Replace template
-              run: ./.github/workflows/internal/replace.sh
+            - name: Use ccache
+              uses: hendrikmuhs/ccache-action@v1.2
+              with:
+                  create-symlink: true
+
+            - name: Cache tools
+              uses: actions/cache@v4
+              env:
+                  cache-name: cache-tools
+              with:
+                  path: |
+                      /opt/ac_tools/
+                      /usr/bin/dasel/
+                      /usr/bin/jq/
+                  key: tools-${{ hashFiles('./.github/workflows/internal/**') }}
+                  restore-keys: |
+                      tools-
+
+            - name: Cache installation
+              id: cache-lib
+              if: ${{ github.event.inputs.test-mode != 'strict' }}
+              uses: actions/cache@v4
+              env:
+                  cache-name: cache-install
+              with:
+                  path: |
+                      /tmp/ac_install/
+                      /opt/ac_install/
+                  key: build-${{ hashFiles('./src/**') }}
+                  restore-keys: |
+                      build-
+
+            - name: Prepare
+              run: ./.github/workflows/internal/prepare.sh
+
+            - name: Expand installer
+              run: |
+                  ./.github/workflows/internal/expanders/installer.sh
+
+                  {
+                    echo '```bash'
+                    cat ./dist/install.sh
+                    echo '```'
+                  }> ${GITHUB_STEP_SUMMARY}
+
+            - name: Install libraries
+              env:
+                  RUN_TEST: ${{ github.event.inputs.test-mode == 'strict' }}
+              run: ./dist/install.sh
+
+            - name: Upload installed libraries
+              uses: actions/upload-artifact@v4
+              with:
+                  name: opt-dir
+                  path: /opt/
+
+            - name: Expand compiler
+              run: |
+                  ./.github/workflows/internal/expanders/compiler.sh
+
+                  {
+                    echo '```bash'
+                    cat ./dist/compile.sh
+                    echo '```'
+                  }> ${GITHUB_STEP_SUMMARY}
+
+            - name: Expand config file
+              run: |
+                  ./.github/workflows/internal/expanders/config.sh
+
+                  {
+                    echo '```toml'
+                    cat ./dist/install.toml
+                    echo '```'
+                  }> ${GITHUB_STEP_SUMMARY}
 
             - name: Lint
               run: ./.github/workflows/internal/lint.sh
 
+            - name: Test
+              if: ${{ github.event.inputs.test-mode != 'none' }}
+              run: |
+                  sudo rm -rf /tmp/
+                  ./.github/workflows/internal/test.sh
+
             - name: Push
-              if: ${{ !cancelled() && !startsWith(github.ref_name, 'test') }}
+              if: ${{ !cancelled() && github.ref_name == 'main' }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
