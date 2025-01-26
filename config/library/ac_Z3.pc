@@ -3,3 +3,6 @@ Description: links Z3.
 Version:
 
 Requires: z3
+Libs: \
+    -L/opt/z3/lib/ \
+    -Wl,-R/opt/z3/lib/ \

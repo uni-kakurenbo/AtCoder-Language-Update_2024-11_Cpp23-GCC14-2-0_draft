@@ -6,9 +6,9 @@ DIR="$(dirname "$0")"
 DIR="${DIR}/../../../"
 
 CONFIG_PATHS=(
-    "${DIR}/src/config/"
-    "${DIR}/src/config/internal/"
-    "${DIR}/src/config/library/"
+    "${DIR}/config/"
+    "${DIR}/config/internal/"
+    "${DIR}/config/library/"
 
     "/opt/abseil/lib/pkgconfig/"
     "/opt/or-tools/lib/pkgconfig/"
