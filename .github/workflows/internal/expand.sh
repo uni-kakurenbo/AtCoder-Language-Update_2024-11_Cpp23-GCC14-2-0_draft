@@ -5,10 +5,10 @@ DIR="$(dirname "$0")"
 
 "${DIR}/build_pkg-config.sh"
 
-"${DIR}/gen-flags.sh"
-
 rm -rf ./dist/
 mkdir -p ./dist/
+
+"${DIR}/gen-flags.sh"
 
 "${DIR}/replacers/sub-installers.sh"
 "${DIR}/replacers/installer.sh"

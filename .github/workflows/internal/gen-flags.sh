@@ -2,10 +2,13 @@
 
 set -eu
 
+DIR="$(dirname "$0")"
+DIR="${DIR}/../../../"
+
 CONFIG_PATHS=(
-    "${PWD}/src/config/"
-    "${PWD}/src/config/internal/"
-    "${PWD}/src/config/library/"
+    "${DIR}/src/config/"
+    "${DIR}/src/config/internal/"
+    "${DIR}/src/config/library/"
 
     "/opt/abseil/lib/pkgconfig/"
     "/opt/or-tools/lib/pkgconfig/"
@@ -18,7 +21,7 @@ CONFIG_PATHS="${CONFIG_PATHS// /:}"
 PKG_CONFIG_PATH="${CONFIG_PATHS}"
 export PKG_CONFIG_PATH
 
-function gen-flags() {
+function gen() {
     local flags
     local libs
 
@@ -28,5 +31,5 @@ function gen-flags() {
     echo "${flags[@]} ${libs[@]}"
 }
 
-gen-flags ac_internal | tr ' ' '\n' >./dist/internal.flags.txt
-gen-flags ac_user | tr ' ' '\n' >./dist/user.flags.txt
+gen ac_internal | tr ' ' '\n' >./dist/internal.flags.txt
+gen ac_user | tr ' ' '\n' >./dist/user.flags.txt
