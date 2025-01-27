@@ -2,4 +2,4 @@ Name: Eigen3
 Description: links Eigen3.
 Version:
 
-Cflags: -I/usr/include/eigen3/
+Cflags: -I/opt/ac_install/eigen3/include/
