@@ -2,7 +2,7 @@
 set -eu
 
 cd ./test/
-sudo mkdir -p ./tmp/
+mkdir -p ./tmp/
 
 function run-test() {
     set -eu
@@ -12,7 +12,7 @@ function run-test() {
 
     local directory="./tmp/${name}"
 
-    sudo mkdir -p "${directory}"
+    mkdir -p "${directory}"
     cp ../dist/compile.sh "${directory}/compile.sh"
     cp "$1" "${directory}/Main.cpp"
 
