@@ -10,13 +10,13 @@ fi
 sudo mkdir -p ./tmp/ && cd ./tmp/
 
 sudo wget https://pkg-config.freedesktop.org/releases/pkg-config-${VERSION}.tar.gz
-tar xvf pkg-config-${VERSION}.tar.gz
+sudo tar xvf pkg-config-${VERSION}.tar.gz
 
 cd ./pkg-config-${VERSION}
 
-./configure --with-internal-glib
+sudo ./configure --with-internal-glib
 
-make
+sudo make
 sudo make install
 
 cd ../../
