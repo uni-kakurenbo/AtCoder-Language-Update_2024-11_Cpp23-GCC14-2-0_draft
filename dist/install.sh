@@ -4,112 +4,24 @@
 ####################################
 
 # shellcheck disable=all
-
-BASIC_BUILD_FLAGS=(
-    "-std=gnu++23"
-
-    -O2
-
-    -lstdc++exp
-)
-
-BASIC_USER_BUILD_FLAGS=(
-    ${BASIC_BUILD_FLAGS[@]}
-
-    -DONLINE_JUDGE
-    -DATCODER
-
-    -Wall
-    -Wextra
-)
-
-EXTRA_USER_BUILD_FLAGS=(
-    -fopenmp
-
-    "-march=native"
-    "-flto=auto"
-
-    "-fconstexpr-depth=1024"
-    "-fconstexpr-loop-limit=524288"
-    "-fconstexpr-ops-limit=67108864"
-)
-
-USER_BOOST_LIBRARY_LINKS=(
-    -lboost_atomic
-    -lboost_charconv
-    -lboost_chrono
-    -lboost_container
-    -lboost_context
-    -lboost_contract
-    -lboost_coroutine
-    -lboost_date_time
-    -lboost_exception
-    -lboost_fiber
-    -lboost_filesystem
-    -lboost_graph
-    -lboost_iostreams
-    -lboost_json
-    -lboost_locale
-    -lboost_log -lboost_log_setup
-    -lboost_math_c99 -lboost_math_c99f -lboost_math_c99l -lboost_math_tr1 -lboost_math_tr1f -lboost_math_tr1l
-    -lboost_nowide
-    -lboost_prg_exec_monitor
-    -lboost_process
-    -lboost_program_options
-    -lboost_random
-    -lboost_regex
-    -lboost_serialization
-    -lboost_stacktrace_addr2line -lboost_stacktrace_backtrace -lboost_stacktrace_basic -lboost_stacktrace_from_exception -lboost_stacktrace_noop
-    -lboost_system
-    -lboost_test_exec_monitor
-    -lboost_thread
-    -lboost_timer
-    -lboost_type_erasure
-    -lboost_unit_test_framework
-    -lboost_url
-    -lboost_wave
-    -lboost_wserialization
-)
-
-USER_LIBRARY_FLAGS=(
-    -I/opt/abseil/include/ -L/opt/abseil/l/
-    -I/opt/ac-library/
-
-    -I/opt/boost/include/ -L/opt/boost/l/ "${USER_BOOST_LIBRARY_LINKS[@]}"
-    -I/usr/include/eigen3/
-    -lgmpxx -lgmp
-    -I/opt/range-v3/include/
-    -I/opt/unordered_dense/include/ -L/opt/unordered_dense/l/
-    -I/opt/z3/include/ -L/opt/z3/l/ -Wl,-R/opt/z3/l/ -lz3
-    -I/opt/light-gbm/include/ -L/opt/light-gbm/l/ -Wl,-R/opt/light-gbm/l/ -l_lightgbm
-
-    -I/opt/libtorch/include/ -I/opt/libtorch/include/torch/csrc/api/include/ -L/opt/libtorch/l/
-    -Wl,-R/opt/libtorch/l/ -ltorch -ltorch_cpu -lc10
-
-    -I/opt/or-tools/include/ -L/opt/or-tools/l/
-    -Wl,-R/opt/or-tools/l/ -lortools -lprotobuf
-)
-
-INTERNAL_BUILD_FLAGS=( # for internal library building (CMake).
-    ${BASIC_BUILD_FLAGS[@]}
-    -w
-)
-
-USER_BUILD_FLAGS=( # for contestants.
-    ${BASIC_USER_BUILD_FLAGS[@]}
-    ${EXTRA_USER_BUILD_FLAGS[@]}
-    ${USER_LIBRARY_FLAGS[@]}
-)
-
-# shellcheck disable=all
 PARALLEL="$(nproc)"
 
+BUILD_FLAGS=(
+    "-O2"
+    "-std=gnu++23"
+    "-w"
+    "-lstdc++exp"
+)
+
 VERSION="14.2.0-4ubuntu2~24.04"
+
 set -eu
 
 sudo apt-get install -y "g++-14=${VERSION}"
 
 sudo apt-get install -y git cmake pigz pbzip2
+
+
 
 
 # abseil
@@ -131,8 +43,10 @@ mkdir -p ./build/ && cd ./build/
 BUILD_ARGS=(
     -DABSL_ENABLE_INSTALL:BOOL=ON
     -DABSL_PROPAGATE_CXX_STD:BOOL=ON
+    -DABSL_USE_SYSTEM_INCLUDES:BOOL=ON
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/abseil/
-    -DCMAKE_CXX_FLAGS:STRING="${INTERNAL_BUILD_FLAGS[*]} -fPIC"
+    -DCMAKE_CXX_COMPILER:STRING="g++-14"
+    -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]} -fPIC"
 )
 
 if [[ -v RUN_TEST ]] && [[ "${RUN_TEST}" = "true" ]]; then
@@ -182,7 +96,7 @@ BUILD_ARGS=(
     "variant=release"
     "link=static"
     "runtime-link=static"
-    "cxxflags=${INTERNAL_BUILD_FLAGS[*]}"
+    "cxxflags=${BUILD_FLAGS[*]}"
 )
 
 sudo ./b2 "${BUILD_ARGS[@]}" stage
@@ -215,8 +129,12 @@ cd /tmp/
 sudo wget -q "https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-${VERSION}%2Bcpu.zip" -O ./libtorch.zip
 sudo unzip -oq ./libtorch.zip -d ./
 
-sudo mkdir -p /opt/libtorch/include/libtorch/
-sudo mkdir -p /opt/libtorch/lib/libtorch/
+sudo mkdir -p /opt/libtorch/include/
+sudo mkdir -p /opt/libtorch/lib/
+
+sudo rm -f ./libtorch/lib/libprotobuf.a
+sudo rm -f ./libtorch/lib/libprotobuf-lite.a
+sudo rm -f ./libtorch/lib/libprotoc.a
 
 sudo cp -Trf ./libtorch/include/ /opt/libtorch/include/
 sudo cp -Trf ./libtorch/lib/ /opt/libtorch/lib/
@@ -259,8 +177,9 @@ sudo cmake -G "${GENERATOR}" \
     -DBUILD_TESTING:BOOL="${BUILD_TESTING}" \
     -DCMAKE_PREFIX_PATH:PATH=/opt/abseil/ \
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/or-tools/ \
+    -DBUILD_SHARED_LIBS:BOOL=OFF \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
-    -DCMAKE_CXX_FLAGS="${INTERNAL_BUILD_FLAGS[*]}" \
+    -DCMAKE_CXX_FLAGS="${BUILD_FLAGS[*]}" \
     ../
 
 sudo cmake --build ./ --config Release --target install --parallel "${PARALLEL}"
@@ -292,10 +211,12 @@ mkdir -p ./build/ && cd ./build/
 sudo cmake \
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/light-gbm/ \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
-    -DCMAKE_CXX_FLAGS:STRING="${INTERNAL_BUILD_FLAGS[*]} -I/usr/include/eigen3/" \
+    -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]} -I/usr/include/eigen3/" \
     ../
 
 sudo cmake --build ./ --target install --parallel "${PARALLEL}"
+
+rm -rf /opt/light-gbm/bin/
 
 
 # range-v3
@@ -333,7 +254,7 @@ mkdir -p ./build/ && cd ./build/
 
 sudo cmake \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
-    -DCMAKE_CXX_FLAGS:STRING="${INTERNAL_BUILD_FLAGS[*]}" \
+    -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]}" \
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/unordered_dense/ \
     ../
 
@@ -360,7 +281,7 @@ sudo cmake \
     -DCMAKE_BUILD_TYPE:STRING=Release \
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/z3/ \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
-    -DCMAKE_CXX_FLAGS:STRING="${INTERNAL_BUILD_FLAGS[*]}" \
+    -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]}" \
     ../
 
 sudo make install "-j${PARALLEL}"
