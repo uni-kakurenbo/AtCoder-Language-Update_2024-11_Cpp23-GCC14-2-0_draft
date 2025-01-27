@@ -14,7 +14,7 @@ sudo mkdir -p ./build/ && cd ./build/
 
 sudo cmake \
     -DCMAKE_BUILD_TYPE:STRING=Release \
-    -DCMAKE_INSTALL_PREFIX:PATH=/opt/z3/ \
+    -DCMAKE_INSTALL_PREFIX:PATH=/opt/ac_install/z3/ \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
     -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]}" \
     ../

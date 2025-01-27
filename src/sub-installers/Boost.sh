@@ -24,4 +24,4 @@ BUILD_ARGS=(
 )
 
 sudo ./b2 "${BUILD_ARGS[@]}" stage
-sudo ./b2 "${BUILD_ARGS[@]}" --prefix=/opt/boost/ install
+sudo ./b2 "${BUILD_ARGS[@]}" --prefix=/opt/ac_install/boost/ install

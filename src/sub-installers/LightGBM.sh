@@ -16,11 +16,11 @@ sudo rm -rf ./external_libs/eigen/
 sudo mkdir -p ./build/ && cd ./build/
 
 sudo cmake \
-    -DCMAKE_INSTALL_PREFIX:PATH=/opt/light-gbm/ \
+    -DCMAKE_INSTALL_PREFIX:PATH=/opt/ac_install/light-gbm/ \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
     -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]} -I/usr/include/eigen3/" \
     ../
 
 sudo cmake --build ./ --target install --parallel "${PARALLEL}"
 
-rm -rf /opt/light-gbm/bin/
+rm -rf /opt/ac_install/light-gbm/bin/

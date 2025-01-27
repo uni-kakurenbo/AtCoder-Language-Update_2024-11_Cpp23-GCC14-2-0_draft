@@ -14,7 +14,7 @@ sudo tar xvf pkg-config-${VERSION}.tar.gz
 
 cd ./pkg-config-${VERSION}
 
-sudo ./configure --with-internal-glib
+sudo ./configure --with-internal-glib --prefix=/opt/pkg-config/
 
 sudo make
 sudo make install

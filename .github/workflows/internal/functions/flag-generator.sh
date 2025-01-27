@@ -10,9 +10,9 @@ CONFIG_PATHS=(
     "${ROOT_DIR}/config/internal/"
     "${ROOT_DIR}/config/library/"
 
-    "/opt/abseil/lib/pkgconfig/"
-    "/opt/or-tools/lib/pkgconfig/"
-    "/opt/z3/lib/pkgconfig/"
+    "/opt/ac_install/abseil/lib/pkgconfig/"
+    "/opt/ac_install/or-tools/lib/pkgconfig/"
+    "/opt/ac_install/z3/lib/pkgconfig/"
 )
 
 CONFIG_PATHS="${CONFIG_PATHS[@]}"
