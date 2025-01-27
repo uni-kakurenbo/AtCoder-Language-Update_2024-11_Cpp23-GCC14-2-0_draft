@@ -23,7 +23,6 @@ function run-test() {
     exit_status=0
 
     {
-
         set +e
         local header="================ ${name} ================"
 
