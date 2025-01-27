@@ -43,6 +43,20 @@ jobs:
               with:
                   create-symlink: true
 
+            - name: Cache tools
+              id: cache-tools
+              if: ${{ github.event.inputs.test-mode != 'strict' }}
+              uses: actions/cache@v4
+              env:
+                  cache-name: cache-install
+              with:
+                  save-always: true
+                  path: |
+                      /usr/local/bin/pkg-config
+                  key: tools-${{ hashFiles('./.github/workflows/internal/functions/build_pkg-config.sh') }}
+                  restore-keys: |
+                      tools-
+
             - name: Cache installation
               id: cache-lib
               if: ${{ github.event.inputs.test-mode != 'strict' }}
@@ -53,7 +67,7 @@ jobs:
                   save-always: true
                   path: |
                       /tmp/ac_install/
-                      /opt/
+                      /opt/ac_install/
                   key: build-${{ hashFiles('./src/**') }}
                   restore-keys: |
                       build-
