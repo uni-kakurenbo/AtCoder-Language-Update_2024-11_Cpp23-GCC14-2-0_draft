@@ -1,0 +1,4 @@
+-O2
+-std=gnu++23
+-w
+-lstdc++exp
