@@ -2,7 +2,7 @@
 set -eu
 
 cd ./test/
-mkdir -p ./tmp/
+sudo mkdir -p ./tmp/
 
 function run-test() {
     set -eu
