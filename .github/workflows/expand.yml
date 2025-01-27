@@ -44,16 +44,16 @@ jobs:
                   create-symlink: true
 
             - name: Cache tools
-              id: cache-tools
-              if: ${{ github.event.inputs.test-mode != 'strict' }}
               uses: actions/cache@v4
               env:
-                  cache-name: cache-install
+                  cache-name: cache-tools
               with:
                   save-always: true
                   path: |
-                      /usr/local/bin/pkg-config
-                  key: tools-${{ hashFiles('./.github/workflows/internal/functions/build_pkg-config.sh') }}
+                      /opt/ac_tools/
+                      /usr/bin/dasel/
+                      /usr/bin/jq/
+                  key: tools-${{ hashFiles('./.github/workflows/internal/**') }}
                   restore-keys: |
                       tools-
 
