@@ -8,6 +8,7 @@ sudo apt-get install -y "g++-14=${VERSION}"
 sudo apt-get install -y git cmake pigz pbzip2
 
 sudo mkdir -p /tmp/ac_install/
+sudo mkdir -p /opt/ac_install/
 
 # ./sub-installers/abseil.sh
 ./sub-installers/AC-Library.sh
