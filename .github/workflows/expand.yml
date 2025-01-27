@@ -5,6 +5,8 @@ on:
     push:
         branches:
             - main
+            - test/**
+    pull_request:
     workflow_dispatch:
         inputs:
             test-mode:
@@ -18,7 +20,11 @@ on:
                     - strict
 
 concurrency:
-    group: expand-${{ github.ref_name }}
+    group: |
+        test-${{
+            startsWith(github.ref_name, 'test') && github.ref_name ||
+            github.run_id
+        }}
     cancel-in-progress: true
 
 jobs:
@@ -42,15 +48,15 @@ jobs:
               if: ${{ github.event.inputs.test-mode != 'strict' }}
               uses: actions/cache@v4
               env:
-                cache-name: cache-install
+                  cache-name: cache-install
               with:
-                save-always: true
-                path: |
-                  /tmp/ac_install/
-                  /opt/
-                key: build-${{ hashFiles('./src/**') }}
-                restore-keys: |
-                  build-
+                  save-always: true
+                  path: |
+                      /tmp/ac_install/
+                      /opt/
+                  key: build-${{ hashFiles('./src/**') }}
+                  restore-keys: |
+                      build-
 
             - name: Expand template
               env:
