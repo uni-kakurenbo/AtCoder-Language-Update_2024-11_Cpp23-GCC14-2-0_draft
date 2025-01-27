@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eu
 
-cd /tmp/
+cd /tmp/ac_install/
 
-mkdir -p ./or-tools/
+sudo mkdir -p ./or-tools/
 
 sudo wget -q "https://github.com/google/or-tools/archive/refs/tags/v${VERSION}.tar.gz" -O ./or-tools.tar.gz
 sudo tar -I pigz -xf ./or-tools.tar.gz -C ./or-tools/ --strip-components 1
@@ -21,7 +21,7 @@ if [[ -v RUN_TEST ]] && [[ "${RUN_TEST}" = "true" ]]; then
     fi
 fi
 
-mkdir -p ./build/ && cd ./build/
+sudo mkdir -p ./build/ && cd ./build/
 
 sudo cmake -G "${GENERATOR}" \
     -DBUILD_ZLIB:BOOL=ON -DBUILD_Protobuf:BOOL=ON -DBUILD_re2:BOOL=ON \

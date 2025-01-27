@@ -1,16 +1,16 @@
 #!/bin/bash
 set -eu
 
-cd /tmp/
+cd /tmp/ac_install/
 
-mkdir -p ./unordered_dense/
+sudo mkdir -p ./unordered_dense/
 
 sudo wget "https://github.com/martinus/unordered_dense/archive/refs/tags/v${VERSION}.tar.gz" -O ./unordered_dense.tar.gz
 sudo tar -I pigz -xf ./unordered_dense.tar.gz -C ./unordered_dense/ --strip-components 1
 
 cd ./unordered_dense/
 
-mkdir -p ./build/ && cd ./build/
+sudo mkdir -p ./build/ && cd ./build/
 
 sudo cmake \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
