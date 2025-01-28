@@ -34,6 +34,7 @@ sudo cmake -G "${GENERATOR}" \
     -DCMAKE_PREFIX_PATH:PATH="/opt/ac_install/abseil/;/opt/ac_install/eigen3/" \
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/ac_install/or-tools/ \
     -DBUILD_SHARED_LIBS:BOOL=OFF \
+    -DCMAKE_C_FLAGS:STRING="-w" \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
     -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]}" \
     -DCMAKE_INSTALL_MESSAGE:STRING=NEVER -DCMAKE_MESSAGE_LOG_LEVEL:STRING=WARNING \

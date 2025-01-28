@@ -10,3 +10,5 @@ Cflags: \
     \
     -Wall \
     -Wextra \
+    \
+    -O2 \

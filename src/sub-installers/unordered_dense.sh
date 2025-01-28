@@ -13,9 +13,11 @@ cd ./unordered_dense/
 sudo mkdir -p ./build/ && cd ./build/
 
 sudo cmake \
+    -DCMAKE_C_FLAGS:STRING="-w" \
     -DCMAKE_CXX_COMPILER:STRING="g++-14" \
     -DCMAKE_CXX_FLAGS:STRING="${BUILD_FLAGS[*]}" \
     -DCMAKE_INSTALL_PREFIX:PATH=/opt/ac_install/unordered_dense/ \
+    -DCMAKE_INSTALL_MESSAGE:STRING=NEVER -DCMAKE_MESSAGE_LOG_LEVEL:STRING=WARNING \
     ../
 
 sudo cmake --build ./ --target install --parallel "${PARALLEL}"

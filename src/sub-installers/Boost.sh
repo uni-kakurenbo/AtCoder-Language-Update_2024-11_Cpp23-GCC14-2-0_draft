@@ -20,6 +20,7 @@ BUILD_ARGS=(
     "variant=release"
     "link=static"
     "runtime-link=static"
+    "cflags=-w"
     "cxxflags=${BUILD_FLAGS[*]}"
 )
 
