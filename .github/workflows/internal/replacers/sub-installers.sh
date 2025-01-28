@@ -3,8 +3,6 @@ set -eu
 
 SHEBANG='#!/bin/bash'
 
-sudo apt-get install -y dasel jq
-
 mkdir -p ./dist/sub-installers/
 
 function replace() {
