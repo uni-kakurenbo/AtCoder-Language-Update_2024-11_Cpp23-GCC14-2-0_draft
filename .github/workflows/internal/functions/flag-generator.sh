@@ -2,8 +2,10 @@
 
 set -eu
 
+export PATH="${PATH}:/opt/ac_tools/bin/"
+
 ROOT_DIR="$(dirname "$0")"
-ROOT_DIR="${ROOT_DIR}/../../../"
+ROOT_DIR="${ROOT_DIR}/../../../../"
 
 CONFIG_PATHS=(
     "${ROOT_DIR}/config/"

@@ -9,6 +9,7 @@ sudo unzip -oq ./libtorch.zip -d ./
 sudo mkdir -p /opt/ac_install/libtorch/include/
 sudo mkdir -p /opt/ac_install/libtorch/lib/
 
+# remove protobuf, which or-tools has as its dependencies.
 sudo rm -f ./libtorch/lib/libprotobuf.a
 sudo rm -f ./libtorch/lib/libprotobuf-lite.a
 sudo rm -f ./libtorch/lib/libprotoc.a

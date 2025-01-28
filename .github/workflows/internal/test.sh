@@ -17,7 +17,6 @@ function run-test() {
     cp -f "$1" "${directory}/Main.cpp"
 
     cd "${directory}/"
-    chmod +x ./compile.sh
 
     local exit_status
     exit_status=0

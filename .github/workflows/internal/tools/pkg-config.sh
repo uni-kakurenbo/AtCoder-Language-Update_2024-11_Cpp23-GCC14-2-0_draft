@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu
 
+export PATH="${PATH}:/opt/ac_tools/bin/"
+
 VERSION="0.29.2"
 
 if [[ "$(pkg-config --version)" = "${VERSION}" ]]; then
