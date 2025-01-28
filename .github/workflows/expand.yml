@@ -74,14 +74,7 @@ jobs:
               run: ./.github/workflows/internal/prepare.sh
 
             - name: Expand installer
-              run: |
-                  ./.github/workflows/internal/expanders/installer.sh
-
-                  {
-                    echo '```bash'
-                    cat ./dist/install.sh
-                    echo '```'
-                  }> ${GITHUB_STEP_SUMMARY}
+              run: ./.github/workflows/internal/expanders/installer.sh
 
             - name: Install libraries
               env:
@@ -102,20 +95,17 @@ jobs:
                   compression-level: 9
 
             - name: Expand compiler
-              run: |
-                  ./.github/workflows/internal/expanders/compiler.sh
-
-                  {
-                    echo '```bash'
-                    cat ./dist/compile.sh
-                    echo '```'
-                  }> ${GITHUB_STEP_SUMMARY}
+              run: ./.github/workflows/internal/expanders/compiler.sh
 
             - name: Expand config file
               run: |
                   ./.github/workflows/internal/expanders/config.sh
 
+                  sudo rm -rf /tmp/
+
                   {
+                    echo '`install.toml`'
+
                     echo '```toml'
                     cat ./dist/install.toml
                     echo '```'
@@ -126,9 +116,7 @@ jobs:
 
             - name: Test
               if: ${{ github.event.inputs.test-mode != 'none' }}
-              run: |
-                  sudo rm -rf /tmp/
-                  ./.github/workflows/internal/test.sh
+              run: ./.github/workflows/internal/test.sh
 
             - name: Push
               if: ${{ !cancelled() && github.ref_name == 'main' }}
