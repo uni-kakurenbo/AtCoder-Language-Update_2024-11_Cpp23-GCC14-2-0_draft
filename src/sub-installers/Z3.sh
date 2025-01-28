@@ -3,6 +3,8 @@ set -eu
 
 cd /tmp/ac_install/
 
+echo "::gruop::Z3"
+
 sudo mkdir -p ./z3/
 
 sudo wget -q "https://github.com/Z3Prover/z3/archive/refs/tags/z3-${VERSION}.tar.gz" -O ./z3.tar.gz
@@ -22,3 +24,5 @@ sudo cmake \
     ../
 
 sudo make install "-j${PARALLEL}"
+
+echo "::endgruop::"

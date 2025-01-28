@@ -86,13 +86,20 @@ jobs:
             - name: Install libraries
               env:
                   RUN_TEST: ${{ github.event.inputs.test-mode == 'strict' }}
-              run: ./dist/install.sh
+              run: |
+                  ./dist/install.sh
+
+                  ls /opt/
+                  ls /opt/ac_install/
+
+                  du -sh /opt/ac_install/
 
             - name: Upload installed libraries
               uses: actions/upload-artifact@v4
               with:
                   name: opt-dir
-                  path: /opt/
+                  path: /opt/ac_install/
+                  compression-level: 9
 
             - name: Expand compiler
               run: |

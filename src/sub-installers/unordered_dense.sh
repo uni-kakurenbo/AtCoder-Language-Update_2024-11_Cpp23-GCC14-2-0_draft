@@ -3,6 +3,8 @@ set -eu
 
 cd /tmp/ac_install/
 
+echo "::gruop::unordered_dense"
+
 sudo mkdir -p ./unordered_dense/
 
 sudo wget "https://github.com/martinus/unordered_dense/archive/refs/tags/v${VERSION}.tar.gz" -O ./unordered_dense.tar.gz
@@ -21,3 +23,5 @@ sudo cmake \
     ../
 
 sudo cmake --build ./ --target install --parallel "${PARALLEL}"
+
+echo "::endgruop::"

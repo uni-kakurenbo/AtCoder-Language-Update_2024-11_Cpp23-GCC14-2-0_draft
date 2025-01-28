@@ -3,6 +3,8 @@ set -eu
 
 cd /tmp/ac_install/
 
+echo "::gruop::LightGBM"
+
 sudo mkdir -p ./light-gbm/
 
 sudo wget -q "https://github.com/microsoft/LightGBM/releases/download/v${VERSION}/lightgbm-${VERSION}.tar.gz" -O ./light-gbm.tar.gz
@@ -25,4 +27,4 @@ sudo cmake \
 
 sudo cmake --build ./ --target install --parallel "${PARALLEL}"
 
-rm -rf /opt/ac_install/light-gbm/bin/
+echo "::endgruop::"
