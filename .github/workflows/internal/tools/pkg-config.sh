@@ -9,6 +9,8 @@ if [[ "$(pkg-config --version)" = "${VERSION}" ]]; then
     exit 0
 fi
 
+echo "::group::pkg-config"
+
 sudo mkdir -p /tmp/ac_tools/ && cd /tmp/ac_tools/
 
 sudo wget https://pkg-config.freedesktop.org/releases/pkg-config-${VERSION}.tar.gz
@@ -20,3 +22,5 @@ sudo ./configure --with-internal-glib --prefix=/opt/ac_tools/
 
 sudo make
 sudo make install "-j$(nproc)"
+
+echo "::endgroup::"
