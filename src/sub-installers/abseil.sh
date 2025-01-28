@@ -3,6 +3,8 @@ set -eu
 
 cd /tmp/ac_install/
 
+echo "::gruop::abseil"
+
 sudo mkdir -p ./abseil/
 
 sudo wget -q "https://github.com/abseil/abseil-cpp/releases/download/${VERSION}/abseil-cpp-${VERSION}.tar.gz" -O ./abseil.tar.gz
@@ -34,3 +36,5 @@ else
 fi
 
 sudo cmake --build ./ --target install --parallel "${PARALLEL}"
+
+echo "::endgruop::"

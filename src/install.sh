@@ -2,7 +2,11 @@
 set -eu
 
 ### GCC
+echo "::gruop::GCC"
+
 sudo apt-get install -y "g++-14=${VERSION}"
+
+echo "::endgruop::"
 
 ### Libraries
 sudo apt-get install -y git cmake pigz pbzip2
@@ -22,5 +26,5 @@ sudo mkdir -p /opt/ac_install/
 ./sub-installers/unordered_dense.sh
 ./sub-installers/Z3.sh
 
-find /opt/ -name cmake -or -name pkgcinfg -type d -print0 | xargs -0 sudo rm -rf
+find /opt/ -name cmake -or -name pkgconfig -or -name bin -type d -print0 | xargs -0 sudo rm -rf
 sudo apt-get remove -y --auto-remove git cmake pigz pbzip2

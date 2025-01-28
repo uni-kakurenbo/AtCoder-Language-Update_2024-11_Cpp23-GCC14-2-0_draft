@@ -3,6 +3,8 @@ set -eu
 
 cd /tmp/ac_install/
 
+echo "::gruop::OR-Tools"
+
 sudo mkdir -p ./or-tools/
 
 sudo wget -q "https://github.com/google/or-tools/archive/refs/tags/v${VERSION}.tar.gz" -O ./or-tools.tar.gz
@@ -45,3 +47,5 @@ sudo cmake --build ./ --config Release --target install --parallel "${PARALLEL}"
 if [[ -v RUN_TEST ]] && [[ "${RUN_TEST}" = "true" ]]; then
     sudo cmake --build ./ --config Release --target test --parallel "${PARALLEL}"
 fi
+
+echo "::endgruop::"

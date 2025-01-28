@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu
 
+echo "::gruop::Eigen3"
+
 sudo apt-get install -y "libeigen3-dev=${VERSION}"
 
 sudo mkdir -p /opt/ac_install/eigen3/include/
@@ -19,3 +21,5 @@ sudo sed -i \
     /opt/ac_install/eigen3/cmake/Eigen3Targets.cmake
 
 sudo apt-get remove -y libeigen3-dev
+
+echo "::endgruop::"
