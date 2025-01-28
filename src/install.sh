@@ -15,8 +15,8 @@ sudo mkdir -p /opt/ac_install/
 # ./sub-installers/Boost.sh
 ./sub-installers/Eigen.sh
 # ./sub-installers/GMP.sh
-./sub-installers/libtorch.sh
-# ./sub-installers/LightGBM.sh
+# ./sub-installers/libtorch.sh
+./sub-installers/LightGBM.sh
 # ./sub-installers/or-tools.sh
 # ./sub-installers/range-v3.sh
 # ./sub-installers/unordered_dense.sh
